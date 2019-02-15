@@ -1,5 +1,7 @@
 using System.IO;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NUnit.Framework;
 using Serilog;
 using Serilog.AspNetCore;
 using Serilog.Core;
@@ -9,15 +11,26 @@ namespace HeartsApp
 {
     public class BaseTest
     {
-        private Logger logger;
+        protected Logger logger;
         protected ILoggerFactory loggerFactory;
+        protected IConfiguration configuration;
 
-        public BaseTest()
+        [SetUp]
+        public void Init()
         {
             var logFilename = Path.Combine("Logs", NUnit.Framework.TestContext.CurrentContext.Test.FullName + ".log");
             DeleteLogFile(logFilename);
             logger = CreateLogger(logFilename);
             loggerFactory = new SerilogLoggerFactory(logger, false);
+            configuration = LoadConfig();
+        }
+
+        private IConfiguration LoadConfig()
+        {
+            return new ConfigurationBuilder()
+              .AddUserSecrets<BaseTest>()
+              .AddEnvironmentVariables()
+              .Build();
         }
 
         private Logger CreateLogger(string filename)

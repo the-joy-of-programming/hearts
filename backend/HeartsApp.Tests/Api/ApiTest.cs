@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
 using NUnit.Framework;
 using Serilog;
 
@@ -15,9 +16,9 @@ namespace HeartsApp
         [SetUp]
         public new void Init()
         {
-            Environment.SetEnvironmentVariable("Database__ConnectionString", configuration["IntegrationTest:ConnectionString"]);
+            Environment.SetEnvironmentVariable("Database__UseInMemory", bool.TrueString);
             Environment.SetEnvironmentVariable("App__RandomSeed", ApiTestRandomSeed.ToString());
-            var factory = new IntegrationTestWebApplicationFactory();
+            var factory = new WebApplicationFactory<Startup>();
             client = factory.WithWebHostBuilder(builder =>
             {
                 builder.UseSerilog(logger);

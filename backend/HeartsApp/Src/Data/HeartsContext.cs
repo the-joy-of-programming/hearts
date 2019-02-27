@@ -10,5 +10,6 @@ namespace HeartsApp
         }
 
         public DbSet<AppStatistics> AppStatistics { get; set; }
+        public DbSet<SeederRecord> SeederRecord { get; set; }
     }
 }

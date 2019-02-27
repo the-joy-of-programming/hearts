@@ -27,14 +27,28 @@ namespace HeartsApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = configuration["Database:ConnectionString"];
-            if (connectionString == null)
+            var useInMemory = false;
+            var useInMemoryStr = configuration["Database:InMemory"];
+            if (useInMemoryStr != null)
             {
-                throw new Exception("The property Database:ConnectionString must be specified");
+                useInMemory = bool.Parse(useInMemoryStr);
             }
+
             services.AddDbContext<HeartsContext>(options =>
             {
-                options.UseNpgsql(connectionString);
+                if (useInMemory)
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                }
+                else
+                {
+                    var connectionString = configuration["Database:ConnectionString"];
+                    if (connectionString == null)
+                    {
+                        throw new Exception("The property Database:ConnectionString must be specified");
+                    }
+                    options.UseNpgsql(connectionString);
+                }
             });
 
             var randomSeed = configuration["App:RandomSeed"];
@@ -47,10 +61,21 @@ namespace HeartsApp
             services.AddScoped<Random>((_) => randomFactory.createRandom());
             services.AddScoped<Shuffler>();
             services.AddScoped<AppStatisticsRepository>();
+            
+            services.AddSingleton<DbInitializationService>();
 
             services.AddMvc();
 
             services.AddScoped<GetShuffledDeckUseCase>();
+
+            InitializeServices(services).Wait();
+        }
+
+        private Task InitializeServices(IServiceCollection services)
+        {
+            var serviceProvider = services.BuildServiceProvider();
+            var dbInitializer = serviceProvider.GetService<DbInitializationService>();
+            return dbInitializer.Initialize(serviceProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

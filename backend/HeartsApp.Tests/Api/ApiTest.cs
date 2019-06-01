@@ -18,6 +18,8 @@ namespace HeartsApp
         {
             Environment.SetEnvironmentVariable("Database__UseInMemory", bool.TrueString);
             Environment.SetEnvironmentVariable("App__RandomSeed", ApiTestRandomSeed.ToString());
+            var type = typeof(Startup);
+            var depsFileName = $"{typeof(Startup).Assembly.GetName().Name}.deps.json";
             var factory = new WebApplicationFactory<Startup>();
             client = factory.WithWebHostBuilder(builder =>
             {

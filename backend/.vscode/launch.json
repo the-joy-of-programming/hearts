@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Identity/bin/Debug/netcoreapp2.1/Identity.dll",
+            "program": "${workspaceFolder}/IdentityApp/bin/Debug/netcoreapp2.2/IdentityApp.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Identity",
+            "cwd": "${workspaceFolder}/IdentityApp",
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }

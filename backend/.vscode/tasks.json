@@ -7,17 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Identity/Identity.csproj"
-            ],
-            "problemMatcher": "$tsc"
-        },
-        {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/Identity/Identity.csproj"
+                "${workspaceFolder}/IdentityApp/IdentityApp.csproj"
             ],
             "problemMatcher": "$tsc"
         },
@@ -28,7 +18,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Identity/Identity.csproj"
+                "${workspaceFolder}/IdentityApp/IdentityApp.csproj"
             ],
             "problemMatcher": "$tsc"
         }

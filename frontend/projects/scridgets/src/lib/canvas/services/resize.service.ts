@@ -1,16 +1,21 @@
 import ResizeObserver from 'resize-observer-polyfill';
 import { Injectable, ElementRef, NgZone } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
+export interface Size {
+  width: number;
+  height: number;
+}
 
 export class ResizeObservable {
 
-  private obs = new Subject<void>();
+  private obs = new Subject<Size>();
   private target: any;
   private ro: ResizeObserver;
   private oldWidth = -1;
   private oldHeight = -1;
-  observable = this.obs.pipe(debounceTime(100));
+  observable: Observable<Size> = this.obs.pipe(debounceTime(100));
 
   constructor(elementRef: ElementRef, private ngZone: NgZone) {
     this.target = elementRef.nativeElement;
@@ -21,7 +26,7 @@ export class ResizeObservable {
         this.oldWidth = width;
         this.oldHeight = height;
         this.ngZone.run(() => {
-          this.obs.next();
+          this.obs.next({ width, height });
         });
       }
     });
@@ -39,7 +44,9 @@ export class ResizeObservable {
 
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ResizeService {
 
   constructor(private ngZone: NgZone) {

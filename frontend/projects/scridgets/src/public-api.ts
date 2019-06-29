@@ -2,6 +2,6 @@
  * Public API Surface of scridgets
  */
 
-export * from './lib/scridgets.service';
-export * from './lib/scridgets.component';
-export * from './lib/scridgets.module';
+export * from './lib/canvas/components/canvas.component';
+export * from './lib/canvas/services/canvas.service';
+export * from './lib/canvas/services/resize.service';

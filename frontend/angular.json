@@ -148,6 +148,26 @@
             "project": "projects/scridgets/ng-package.json"
           }
         },
+        "demobuild": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/scridgets-demo",
+            "index": "projects/scridgets/src/demo.html",
+            "main": "projects/scridgets/src/demo.ts",
+            "polyfills": "projects/scridgets/src/polyfills.ts",
+            "tsConfig": "projects/scridgets/tsconfig.lib.json",
+            "assets": [],
+            "styles": ["projects/scridgets/scridgets.css"],
+            "scripts": [],
+            "es5BrowserSupport": true
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "scridgets:demobuild"
+          }
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

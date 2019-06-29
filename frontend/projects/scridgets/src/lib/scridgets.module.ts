@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
-import { ScridgetsComponent } from './scridgets.component';
+
+import { ScCanvasComponent } from './canvas/components/canvas.component';
 
 @NgModule({
-  declarations: [ScridgetsComponent],
-  imports: [
+  declarations: [
+    ScCanvasComponent
   ],
-  exports: [ScridgetsComponent]
+  imports: [
+    
+  ],
+  exports: [
+    ScCanvasComponent
+  ]
 })
 export class ScridgetsModule { }
